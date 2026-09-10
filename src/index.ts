@@ -2,3 +2,4 @@ export type { TeamId, EnvId, Team, AgentState, AgentRun, NeedsYouKind, NeedsYouI
 export { TEAMS, teamById } from "./teams.js";
 export { STATE_SEVERITY, worstState } from "./state.js";
 export { inferDispatchTeam, normalizeDispatchEnv } from "./dispatch.js";
+export * from "./eval/index.js";

@@ -33,9 +33,10 @@
     "url": "https://github.com/JoshuaHidary/agent-company/issues"
   },
   "scripts": {
-    "test": "node --import tsx --test src/**/*.test.ts",
+    "test": "node --import tsx --test src/*.test.ts src/eval/*.test.ts",
     "typecheck": "tsc --noEmit",
-    "demo": "node --import tsx src/demo.ts"
+    "demo": "node --import tsx src/demo.ts",
+    "eval": "node --import tsx src/eval/demo.ts"
   },
   "devDependencies": {
     "tsx": "^4",

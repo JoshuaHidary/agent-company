@@ -123,14 +123,48 @@ inferDispatchTeam("What's on my calendar");   // → "ops"
 
 ---
 
-## Evaluation Layer (v0.2)
+## Evaluation Harness
 
-A cross-model benchmark runner that answers: *which model should run each team?*
+A deterministic, provider-agnostic benchmark runner that answers: *which model
+should run each team?* The scorer is pure TypeScript — no LLM is involved in
+scoring, so results are reproducible and explainable.
 
-- Defines test cases per team (e.g., "Given an open PR, produce a code review")
-- Runs prompts through multiple LLM providers
-- Scores on: **accuracy · latency · cost · tool-calling correctness**
-- Produces a per-team leaderboard
+**Dimensions** (weighted composite, configurable):
+
+| Dimension | Weight | Method |
+|-----------|--------|--------|
+| Accuracy | 0.50 | checklist (`mustContain`/`mustNotContain`) + token-overlap vs `reference` |
+| Latency | 0.20 | mean latency normalized across the field (lower is better) |
+| Cost | 0.15 | total cost normalized across the field (lower is better) |
+| Tool calls | 0.15 | subsequence match against `expectedTools` |
+
+```ts
+import {
+  BENCHMARKS,        // one Benchmark per team (5 total, 3+ cases each)
+  benchmarkById,
+  runBenchmark,      // (benchmark, providers, weights?) => EvalResult[]
+  buildLeaderboard,  // (results) => ranked LeaderboardEntry[]
+  MockProvider,      // deterministic, no network
+  OpenAICompatibleProvider,
+  AnthropicProvider,
+} from "agent-company";
+```
+
+**Run it** (offline, no API keys):
+
+```bash
+npm run eval    # prints a per-team + overall leaderboard
+npm test        # 51 tests, including the eval harness
+```
+
+The demo pits three tuned mocks against each other — a slow-but-thorough
+provider, a fast-but-sloppy one, and a cheap-but-mediocre one — so the composite
+ranking is non-trivial: accuracy usually wins, but latency and cost flip close
+races (the cheap provider wins the revenue and ops teams).
+
+Real providers (`OpenAICompatibleProvider`, `AnthropicProvider`) are opt-in:
+they read API keys from the environment and never fabricate cost — when no
+token pricing is configured, `costUsd` is `0`, not an invented number.
 
 ---
 
