@@ -47,6 +47,7 @@
     "eval": "node --import tsx src/eval/demo.ts"
   },
   "devDependencies": {
+    "@types/node": "^20",
     "tsx": "^4",
     "typescript": "^5"
   },
