@@ -5,6 +5,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178c6)](https://www.typescriptlang.org)
+[![CI](https://github.com/JoshuaHidary/agent-company/actions/workflows/ci.yml/badge.svg)](https://github.com/JoshuaHidary/agent-company/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/badge/npm-v0.2.0-cb3837)](https://www.npmjs.com/package/agent-company)
+
+> **[Quickstart](docs/QUICKSTART.md)** · **[Blog: Why I organized my agents like a company](blog/why-i-organized-my-agents-like-a-company.md)** · **[Architecture](docs/architecture.html)** · **[Contributing](CONTRIBUTING.md)**
 
 ---
 
@@ -187,17 +191,30 @@ src/
   state.ts                    # STATE_SEVERITY, worstState()
   dispatch.ts                 # inferDispatchTeam(), normalizeDispatchEnv()
   index.ts                    # Public barrel export
-  agent-company.test.ts       # Full test suite (Node.js test runner)
-  demo.ts                     # Self-contained demo — no API keys
+  agent-company.test.ts       # Core test suite (Node.js test runner)
+  demo.ts                     # Self-contained orchestration demo — no API keys
+  eval/                       # Evaluation harness
+    types.ts                  # Criterion, TestCase, Benchmark, EvalResult, weights
+    scorer.ts                 # Pure scoring: checklist, Jaccard, tools, normalizeToBest
+    provider.ts               # MockProvider + OpenAI-compatible + Anthropic adapters
+    benchmarks.ts             # BENCHMARKS — one suite per team
+    runner.ts                 # runBenchmark()
+    leaderboard.ts            # buildLeaderboard()
+    eval.test.ts              # Eval test suite
+    demo.ts                   # Self-contained eval demo — no API keys
 docs/
   architecture.html           # Interactive architecture diagram
+  QUICKSTART.md               # Five-minute setup
+blog/
+  why-i-organized-my-agents-like-a-company.md
+CONTRIBUTING.md               # Contribution guide
 ```
 
 ---
 
 ## Philosophy
 
-- **No AI slop.** Every function is deterministic, testable, and documented. Dispatch uses explicit keyword matching, not an LLM. The state machine is a finite automaton. The evaluation layer compares real outputs against real criteria.
+- **No AI slop.** Every function is deterministic, testable, and documented. Dispatch uses explicit keyword matching, not an LLM. The state machine is a finite automaton. The evaluation layer compares real outputs against real criteria — and never calls an LLM to score an LLM.
 - **Framework, not platform.** No API keys, no cloud services, no vendor lock-in. Import what you need.
 - **Teams over tasks.** Organizing agents as teams with mandates creates accountability — "Revenue is drafting the Q3 invoice" instead of "do the thing."
 

@@ -1,0 +1,8 @@
+src/
+docs/
+*.test.ts
+PHASE4-SPEC.md
+tsconfig.json
+tsconfig.build.json
+.github/
+.gitignore
