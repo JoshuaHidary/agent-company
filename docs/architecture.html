@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Company · Architecture</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #020617; min-height: 100vh; padding: 2rem; color: white;
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .header { margin-bottom: 2rem; }
+    .header-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+    .pulse-dot { width: 12px; height: 12px; background: #22d3ee; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em; }
+    .subtitle { color: #94a3b8; font-size: 0.875rem; margin-left: 1.75rem; }
+    .diagram-container {
+      background: rgba(15, 23, 42, 0.5); border-radius: 1rem; border: 1px solid #1e293b;
+      padding: 1.5rem; overflow-x: auto;
+    }
+    svg { width: 100%; min-width: 900px; display: block; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 2rem; }
+    .card { background: rgba(15, 23, 42, 0.5); border-radius: 0.75rem; border: 1px solid #1e293b; padding: 1.25rem; }
+    .card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .card-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .card-dot.cyan { background: #22d3ee; } .card-dot.emerald { background: #34d399; }
+    .card-dot.violet { background: #a78bfa; } .card-dot.amber { background: #fbbf24; }
+    .card h3 { font-size: 0.875rem; font-weight: 600; }
+    .card ul { list-style: none; color: #94a3b8; font-size: 0.75rem; }
+    .card li { margin-bottom: 0.375rem; }
+    .footer { text-align: center; margin-top: 1.5rem; color: #475569; font-size: 0.75rem; }
+  </style>
+</head>
+<body><div class="container">
+  <div class="header">
+    <div class="header-row"><div class="pulse-dot"></div><h1>Agent Company Architecture</h1></div>
+    <p class="subtitle">Multi-agent orchestration framework — dispatch, state machine, evaluation</p>
+  </div>
+  <div class="diagram-container">
+    <svg viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ah" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/></marker>
+        <marker id="ah-cyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#22d3ee"/></marker>
+        <marker id="ah-em" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#34d399"/></marker>
+        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/></pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid)"/>
+
+      <!-- Region: Agent Company -->
+      <rect x="20" y="20" width="960" height="580" rx="12" fill="rgba(34, 211, 238, 0.04)" stroke="#22d3ee" stroke-width="1" stroke-dasharray="8,4"/>
+      <text x="32" y="38" fill="#22d3ee" font-size="10" font-weight="600">Agent Company Runtime</text>
+
+      <!-- === DISPATCH LAYER === -->
+      <rect x="60" y="56" width="900" height="90" rx="8" fill="rgba(30, 41, 59, 0.4)" stroke="#475569" stroke-width="1"/>
+      <text x="76" y="76" fill="#94a3b8" font-size="9" font-weight="600">DISPATCH</text>
+
+      <!-- User input -->
+      <rect x="80" y="90" width="220" height="40" rx="6" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+      <text x="190" y="108" fill="white" font-size="11" font-weight="600" text-anchor="middle">User Instruction (NL)</text>
+      <text x="190" y="122" fill="#94a3b8" font-size="8" text-anchor="middle">"Draft the Q3 invoice"</text>
+
+      <!-- inferDispatchTeam -->
+      <rect x="360" y="90" width="200" height="40" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+      <text x="460" y="108" fill="white" font-size="11" font-weight="600" text-anchor="middle">inferDispatchTeam()</text>
+      <text x="460" y="122" fill="#94a3b8" font-size="8" text-anchor="middle">Keyword router · prioritized</text>
+
+      <!-- normalizeDispatchEnv -->
+      <rect x="620" y="90" width="200" height="40" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+      <text x="720" y="108" fill="white" font-size="11" font-weight="600" text-anchor="middle">normalizeDispatchEnv()</text>
+      <text x="720" y="122" fill="#94a3b8" font-size="8" text-anchor="middle">Env scoping · fallback safe</text>
+
+      <!-- Arrows dispatch -->
+      <line x1="300" y1="110" x2="358" y2="110" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#ah-cyan)"/>
+      <line x1="560" y1="110" x2="618" y2="110" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#ah-cyan)"/>
+
+      <!-- === FIVE TEAMS === -->
+      <rect x="60" y="168" width="900" height="260" rx="8" fill="rgba(30, 41, 59, 0.3)" stroke="#475569" stroke-width="1"/>
+      <text x="76" y="188" fill="#94a3b8" font-size="9" font-weight="600">TEAMS — 5 functional units</text>
+
+      <!-- Team cards -->
+      <!-- Engineering -->
+      <rect x="80" y="200" width="164" height="100" rx="6" fill="rgba(6, 78, 59, 0.3)" stroke="#38e0a0" stroke-width="1.5"/>
+      <text x="162" y="222" fill="white" font-size="12" font-weight="600" text-anchor="middle">🛠 Engineering</text>
+      <text x="162" y="242" fill="#94a3b8" font-size="8" text-anchor="middle">Repos · PRs · Deploys</text>
+      <text x="162" y="258" fill="#94a3b8" font-size="8" text-anchor="middle">Incidents → working code</text>
+      <text x="162" y="282" fill="#38e0a0" font-size="7" text-anchor="middle">STATE: working</text>
+
+      <!-- Revenue -->
+      <rect x="264" y="200" width="164" height="100" rx="6" fill="rgba(120, 53, 15, 0.25)" stroke="#ffc75a" stroke-width="1.5"/>
+      <text x="346" y="222" fill="white" font-size="12" font-weight="600" text-anchor="middle">💰 Revenue</text>
+      <text x="346" y="242" fill="#94a3b8" font-size="8" text-anchor="middle">Deals · Proposals</text>
+      <text x="346" y="258" fill="#94a3b8" font-size="8" text-anchor="middle">Contracts → invoices</text>
+      <text x="346" y="282" fill="#ffc75a" font-size="7" text-anchor="middle">STATE: waiting_on_you ⚠</text>
+
+      <!-- Ops -->
+      <rect x="448" y="200" width="164" height="100" rx="6" fill="rgba(8, 51, 68, 0.3)" stroke="#2ff3ff" stroke-width="1.5"/>
+      <text x="530" y="222" fill="white" font-size="12" font-weight="600" text-anchor="middle">🧭 Ops</text>
+      <text x="530" y="242" fill="#94a3b8" font-size="8" text-anchor="middle">Inbox · Calendar</text>
+      <text x="530" y="258" fill="#94a3b8" font-size="8" text-anchor="middle">Meetings → no drops</text>
+      <text x="530" y="282" fill="#2ff3ff" font-size="7" text-anchor="middle">STATE: idle</text>
+
+      <!-- Intelligence -->
+      <rect x="632" y="200" width="164" height="100" rx="6" fill="rgba(76, 29, 149, 0.25)" stroke="#b478ff" stroke-width="1.5"/>
+      <text x="714" y="222" fill="white" font-size="12" font-weight="600" text-anchor="middle">🔬 Intelligence</text>
+      <text x="714" y="242" fill="#94a3b8" font-size="8" text-anchor="middle">Tech eval · Market watch</text>
+      <text x="714" y="258" fill="#94a3b8" font-size="8" text-anchor="middle">Radar → briefs</text>
+      <text x="714" y="282" fill="#b478ff" font-size="7" text-anchor="middle">STATE: working</text>
+
+      <!-- Growth -->
+      <rect x="816" y="200" width="128" height="100" rx="6" fill="rgba(136, 19, 55, 0.25)" stroke="#ff7ab8" stroke-width="1.5"/>
+      <text x="880" y="222" fill="white" font-size="12" font-weight="600" text-anchor="middle">📡 Growth</text>
+      <text x="880" y="242" fill="#94a3b8" font-size="8" text-anchor="middle">Content · Social</text>
+      <text x="880" y="258" fill="#94a3b8" font-size="8" text-anchor="middle">Outreach → inbound</text>
+      <text x="880" y="282" fill="#ff7ab8" font-size="7" text-anchor="middle">STATE: blocked</text>
+
+      <!-- Dispatch → Teams arrows -->
+      <line x1="820" y1="130" x2="162" y2="198" stroke="#475569" stroke-width="1" marker-end="url(#ah)"/>
+      <line x1="820" y1="130" x2="346" y2="198" stroke="#475569" stroke-width="1" marker-end="url(#ah)"/>
+      <line x1="820" y1="130" x2="530" y2="198" stroke="#475569" stroke-width="1" marker-end="url(#ah)"/>
+      <line x1="820" y1="130" x2="714" y2="198" stroke="#475569" stroke-width="1" marker-end="url(#ah)"/>
+      <line x1="820" y1="130" x2="880" y2="198" stroke="#475569" stroke-width="1" marker-end="url(#ah)"/>
+
+      <!-- === STATE MACHINE === -->
+      <rect x="60" y="448" width="440" height="134" rx="8" fill="rgba(30, 41, 59, 0.3)" stroke="#475569" stroke-width="1"/>
+      <text x="76" y="468" fill="#94a3b8" font-size="9" font-weight="600">STATE MACHINE</text>
+
+      <!-- State nodes -->
+      <rect x="80" y="480" width="80" height="36" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#64748b" stroke-width="1"/>
+      <text x="120" y="503" fill="#94a3b8" font-size="9" text-anchor="middle">idle [0]</text>
+
+      <rect x="200" y="480" width="80" height="36" rx="6" fill="rgba(6, 78, 59, 0.3)" stroke="#34d399" stroke-width="1.5"/>
+      <text x="240" y="503" fill="white" font-size="9" font-weight="600" text-anchor="middle">working [1]</text>
+
+      <rect x="320" y="480" width="80" height="36" rx="6" fill="rgba(120, 53, 15, 0.25)" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="360" y="503" fill="white" font-size="9" font-weight="600" text-anchor="middle">blocked [2]</text>
+
+      <rect x="440" y="478" width="50" height="40" rx="6" fill="rgba(136, 19, 55, 0.3)" stroke="#fb7185" stroke-width="1.5"/>
+      <text x="465" y="493" fill="#fb7185" font-size="8" font-weight="600" text-anchor="middle">waiting</text>
+      <text x="465" y="507" fill="#fb7185" font-size="7" text-anchor="middle">[3]</text>
+
+      <!-- State arrows -->
+      <line x1="160" y1="498" x2="198" y2="498" stroke="#34d399" stroke-width="1.5" marker-end="url(#ah-em)"/>
+      <line x1="280" y1="498" x2="318" y2="498" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#ah)"/>
+      <line x1="400" y1="498" x2="438" y2="498" stroke="#fb7185" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ah)"/>
+
+      <text x="80" y="540" fill="#64748b" font-size="8">worstState() aggregates across all runs to find highest severity</text>
+      <text x="80" y="556" fill="#64748b" font-size="8">NeedsYouItem escalates "waiting_on_you" runs to operator inbox</text>
+
+      <!-- === EVALUATION === -->
+      <rect x="520" y="448" width="440" height="134" rx="8" fill="rgba(30, 41, 59, 0.3)" stroke="#475569" stroke-width="1"/>
+      <text x="536" y="468" fill="#94a3b8" font-size="9" font-weight="600">EVALUATION HARNESS</text>
+
+      <rect x="540" y="480" width="120" height="36" rx="6" fill="rgba(8, 51, 68, 0.3)" stroke="#22d3ee" stroke-width="1.5"/>
+      <text x="600" y="498" fill="white" font-size="9" font-weight="600" text-anchor="middle">Benchmark</text>
+      <text x="600" y="510" fill="#94a3b8" font-size="7" text-anchor="middle">test cases</text>
+
+      <rect x="690" y="480" width="120" height="36" rx="6" fill="rgba(76, 29, 149, 0.25)" stroke="#a78bfa" stroke-width="1.5"/>
+      <text x="750" y="498" fill="white" font-size="9" font-weight="600" text-anchor="middle">Scorer</text>
+      <text x="750" y="510" fill="#94a3b8" font-size="7" text-anchor="middle">accuracy · latency</text>
+
+      <rect x="840" y="480" width="104" height="36" rx="6" fill="rgba(6, 78, 59, 0.25)" stroke="#34d399" stroke-width="1.5"/>
+      <text x="892" y="498" fill="white" font-size="9" font-weight="600" text-anchor="middle">Leaderboard</text>
+      <text x="892" y="510" fill="#94a3b8" font-size="7" text-anchor="middle">per team</text>
+
+      <line x1="660" y1="498" x2="688" y2="498" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#ah)"/>
+      <line x1="810" y1="498" x2="838" y2="498" stroke="#34d399" stroke-width="1.5" marker-end="url(#ah-em)"/>
+
+      <text x="540" y="540" fill="#64748b" font-size="8">Runs agent prompts across multiple LLMs (Claude, GPT, local)</text>
+      <text x="540" y="556" fill="#64748b" font-size="8">Comparative scoring: correctness, cost, tool-call accuracy, latency</text>
+
+      <!-- Legend -->
+      <text x="850" y="585" fill="#94a3b8" font-size="7">cyan=dispatch · green=state/flow · violet=eval · amber=revenue · rose=escalation</text>
+    </svg>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-header"><div class="card-dot cyan"></div><h3>Dispatch Layer</h3></div><ul><li>• Natural language → team routing</li><li>• 5 keyword-classified teams</li><li>• Prioritized matching (revenue > eng)</li><li>• Environment-aware scoping</li></ul></div>
+    <div class="card"><div class="card-header"><div class="card-dot emerald"></div><h3>State Machine</h3></div><ul><li>• 4-state lifecycle per agent run</li><li>• Severity-ranked aggregation</li><li>• "Needs You" escalation queue</li><li>• Manual + cron + delegate sources</li></ul></div>
+    <div class="card"><div class="card-header"><div class="card-dot violet"></div><h3>Evaluation</h3></div><ul><li>• Cross-model benchmark runner</li><li>• Accuracy · latency · cost scoring</li><li>• Per-team leaderboard</li><li>• Tool-calling correctness tests</li></ul></div>
+  </div>
+  <p class="footer">Agent Company · MIT License · github.com/JoshuaHidary/agent-company</p>
+</div></body></html>

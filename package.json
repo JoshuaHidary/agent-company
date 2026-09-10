@@ -1,0 +1,47 @@
+{
+  "name": "agent-company",
+  "version": "0.1.0",
+  "description": "A multi-agent orchestration framework that organizes AI agents as functional business teams — with built-in evaluation and benchmarks.",
+  "keywords": [
+    "ai-agents",
+    "multi-agent",
+    "agent-framework",
+    "orchestration",
+    "llm",
+    "evaluation",
+    "benchmark"
+  ],
+  "author": "Joshua Hidary",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE",
+    "docs/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JoshuaHidary/agent-company.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JoshuaHidary/agent-company/issues"
+  },
+  "scripts": {
+    "test": "node --import tsx --test src/**/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "demo": "node --import tsx src/demo.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
